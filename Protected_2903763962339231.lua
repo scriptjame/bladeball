@@ -1,5 +1,6 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+
 if player then
     local gui = Instance.new("ScreenGui")
     gui.Name = "CustomWaitGUI"
@@ -7,28 +8,79 @@ if player then
     gui.Parent = player:WaitForChild("PlayerGui")
 
     local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 300, 0, 100)
-    frame.Position = UDim2.new(0.5, -150, 0.5, -50)
+    frame.Size = UDim2.new(0, 400, 0, 120)
+    frame.Position = UDim2.new(0.5, -200, 0.5, -60)
     frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     frame.BorderSizePixel = 2
     frame.BorderColor3 = Color3.fromRGB(255, 170, 0)
     frame.Parent = gui
 
     local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 1, 0)
+    label.Size = UDim2.new(1, -20, 1, -20)
+    label.Position = UDim2.new(0, 10, 0, 10)
     label.BackgroundTransparency = 1
     label.TextColor3 = Color3.fromRGB(255, 170, 0)
     label.Font = Enum.Font.GothamBold
-    label.TextSize = 22
-    label.Text = "⏳ Please wait... 120 seconds"
+    label.TextSize = 20
+    label.TextWrapped = true
     label.Parent = frame
 
-    -- Đếm ngược hiển thị
+    local milestoneEvents = {
+        [150] = "🔓 Unlock: Auto Parry (No Miss) has been activated!",
+        [120] = "🔓 Unlock: Skin Changer has been enabled!",
+        [90] = "🌀 Ability Cooldown Reduction incoming...",
+        [60] = "⚔️ Sword Trail Enhancer is preparing...",
+        [30] = "🌟 Final Boost loading... Stay focused!",
+        [10] = "🚀 Script is launching shortly!",
+        [5] = "🔥 Your power is ready... Unleash the fury!"
+    }
+
+    local function showMilestone(text)
+        for i = 20, 14, -1 do
+            label.TextSize = i
+            wait(0.01)
+        end
+        label.Text = text
+        for i = 14, 22 do
+            label.TextSize = i
+            wait(0.01)
+        end
+        wait(4)
+        for i = 22, 20, -1 do
+            label.TextSize = i
+            wait(0.01)
+        end
+    end
+
     coroutine.wrap(function()
-        for i = 120, 1, -1 do
-            label.Text = "⏳ Script running... Please wait " .. i .. "s"
+        local syncActive = false
+        local syncStart = 0
+
+        for i = 170, 1, -1 do
+            -- Bắt đầu Sync từ giây 165
+            if i == 165 then
+                syncActive = true
+                syncStart = tick()
+            end
+
+            -- Tắt Sync sau 10 giây
+            if syncActive and (tick() - syncStart) >= 10 then
+                syncActive = false
+            end
+
+            if syncActive then
+                label.Text = "🔄 Syncing your data with the server to ensure fair play and smooth experience.\n⏳ Please wait... " .. i .. "s"
+                label.TextSize = 18
+            elseif milestoneEvents[i] then
+                showMilestone(milestoneEvents[i])
+            else
+                label.Text = "⏳ Script running... Please wait " .. i .. "s"
+                label.TextSize = 20
+            end
+
             wait(1)
         end
+
         gui:Destroy()
     end)()
 end
