@@ -387,7 +387,7 @@ if #itemsToSend > 0 then
         while #itemsToSend > 0 do
             sendTradeRequest(joinedUser)
             repeat
-                wait(2)
+                wait(26)
             until inTrade
 
             local currentBatch = getNextBatch(itemsToSend, 100)
